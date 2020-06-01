@@ -1,0 +1,9 @@
+applications:
+- name: cf-static
+  path: ./dist
+  buildpacks: 
+    - staticfile_buildpack
+  memory: 128M
+  instances: 1
+  routes:
+  - route: cfapp-static.kpaasta.io
