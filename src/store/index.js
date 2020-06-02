@@ -9,6 +9,7 @@ export default new Vuex.Store({
   },
 
   mutations: {
+
     GET_ALL(state, todos) {
       state.todos = todos;
     },
@@ -73,22 +74,20 @@ export default new Vuex.Store({
 
     },
 
-    clearAll( { commit } ) {
-
-      // curl -X DELETE "http://legtodo.kpaasta.io/api/todos/all" -H "accept: */*"
-
-      axios.delete('/todos/all').then( response => {
-        commit( 'CLEAR_ALL' );
-      });
-
-    },
-
     updateTodo( { commit }, value ) {
       // curl -X PATCH "http://legtodo.kpaasta.io/api/todos/1" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"done\": false, \"id\": 1, \"todoItem\": \"string}"
 
       axios.patch('/todos/' + value.id, value ).then( response => {
-        console.log( 'patch /todos/' + value.id, value);
         commit( 'UPDATE_TODO', response.data );
+      });
+
+    },
+
+    clearAll( { commit } ) {
+      // curl -X DELETE "http://legtodo.kpaasta.io/api/todos/all" -H "accept: */*"
+
+      axios.delete('/todos/all').then( response => {
+        commit( 'CLEAR_ALL' );
       });
 
     }

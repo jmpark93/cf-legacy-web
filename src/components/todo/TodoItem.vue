@@ -29,7 +29,7 @@ export default {
             this.$store.dispatch('updateTodo', {
                 id: this.todo.id,
                 todoItem: this.todo.todoItem,
-                done: checked
+                isDone: checked
             })
         },
         removeTodo(e) {
