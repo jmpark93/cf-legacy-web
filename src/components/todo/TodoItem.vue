@@ -1,13 +1,13 @@
 <template>
     <div class="mb-2 d-flex">
         <div class="vertCenteredContent"> 
-            <b-form-checkbox v-model="todo.checked" @change="updateTodo"> </b-form-checkbox>
+            <b-form-checkbox v-model="todo.done" @change="updateTodo"> </b-form-checkbox>
         </div>
         <span class="flex-grow-1"
               :class="todo.checked ? 'text-muted' : ''"
               :style="todo.checked ? 'text-decoration: line-through': ''"
         >   
-            {{ todo.text }} 
+            {{ todo.todoItem }} 
         </span>
         <span class="removeBtn" type="button" @click="removeTodo">
             <b-icon icon=trash> </b-icon>
@@ -28,7 +28,8 @@ export default {
             // this.$store.commit('UPDATE_TODO', {
             this.$store.dispatch('updateTodo', {
                 id: this.todo.id,
-                checked: checked
+                todoItem: this.todo.todoItem,
+                done: checked
             })
         },
         removeTodo(e) {

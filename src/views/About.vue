@@ -6,6 +6,7 @@
       <li> 클라우드서비스팀, </li>
       <li> KOSCOM </li>
     </ul>
+    {{ }}
   </div>
 </template>
 

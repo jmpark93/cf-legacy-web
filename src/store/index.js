@@ -9,9 +9,9 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    // GET_ALL(state, todos) {
-    //   state.todos = todos;
-    // },
+    GET_ALL(state, todos) {
+      state.todos = todos;
+    },
 
     ADD_TODO(state, value) {
       state.todos.push( value );
@@ -29,78 +29,68 @@ export default new Vuex.Store({
       state.todos = [];
     }, 
 
-    UPDATE_TODO(state, {id, checked}) {
+    UPDATE_TODO(state, value) {
       const index = state.todos.findIndex ( todo => {
-        return todo.id === id;
+        return todo.id === value.id;
       } );
 
-      state.todos[index].checked = checked;
+      state.todos[index] = value;
     }
 
   },
+
   actions: {
 
     getAll( { commit } ) {
-      // axios.get( https://localhost:8080/api/ ).then( res => {
-      //   commit( 'GET_ALL', res.data );
-      // });
-      this.state.todos = [];
+      // curl -X GET "http://legtodo.kpaasta.io/api/todos" -H "accept: application/json"
 
-      if(localStorage.length > 0) {
-        for(var i = 0; i < localStorage.length; i++) {
+      axios.get('/todos').then( response => {
+        commit( 'GET_ALL', response.data._embedded.todos );
+      });
 
-          let key = localStorage.key(i);
-          if( key.startsWith("todo:")) {
-
-            let value = JSON.parse(localStorage.getItem( key ));
-            this.state.todos.push( value );
-          }
-        }
-      }
     },
 
     addTodo( { commit }, value ) {
+      // curl -X POST "http://legtodo.kpaasta.io/api/todos" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"done\": true, \"todoItem\": \"ASDFASDf\"}"
 
       let todoItem = {
-        id: Math.random(),
-        text: value,
-        checked: false
+        todoItem: value,
+        done: false
       };
 
-      localStorage.setItem("todo:" + todoItem.id, JSON.stringify(todoItem));
+      axios.post('/todos', todoItem).then( response => {
+        commit( 'ADD_TODO', response.data);
+      });
 
-      commit( 'ADD_TODO', todoItem );
     },
 
-    removeTodo( { commit }, value ) {
+    removeTodo( { commit }, todoId ) {
+      // curl -X DELETE "http://legtodo.kpaasta.io/api/todos/0" -H "accept: */*"
 
-      localStorage.removeItem( "todo:" + value );
+      axios.delete('/todos/' + todoId).then( response => {
+        commit( 'REMOVE_TODO', todoId );
+      });
 
-      commit( 'REMOVE_TODO', value );
     },
 
     clearAll( { commit } ) {
 
-      if(localStorage.length > 0) {
-        for(var i = 0; i < localStorage.length; i++) {
-          let key = localStorage.key(i);
-          if( key.startsWith("todo:") ) {
-            localStorage.removeItem( key );
-          }
-        }
-      }
+      // curl -X DELETE "http://legtodo.kpaasta.io/api/todos/all" -H "accept: */*"
 
-      commit( 'CLEAR_ALL' );
+      axios.delete('/todos/all').then( response => {
+        commit( 'CLEAR_ALL' );
+      });
+
     },
 
-    updateTodo( { commit }, {id, checked} ) {
+    updateTodo( { commit }, value ) {
+      // curl -X PATCH "http://legtodo.kpaasta.io/api/todos/1" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"done\": false, \"id\": 1, \"todoItem\": \"string}"
 
-      let value = JSON.parse(localStorage.getItem( "todo:" + id));
-      value.checked = checked;
+      axios.patch('/todos/' + value.id, value ).then( response => {
+        console.log( 'patch /todos/' + value.id, value);
+        commit( 'UPDATE_TODO', response.data );
+      });
 
-      localStorage.setItem("todo:" + id, JSON.stringify(value));
-
-      commit( 'UPDATE_TODO', {id, checked} );
     }
   },
 
