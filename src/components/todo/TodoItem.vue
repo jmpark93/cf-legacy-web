@@ -1,11 +1,11 @@
 <template>
     <div class="mb-2 d-flex">
         <div class="vertCenteredContent"> 
-            <b-form-checkbox v-model="todo.done" @change="updateTodo"> </b-form-checkbox>
+            <b-form-checkbox v-model="todo.isDone" @change="updateTodo"> </b-form-checkbox>
         </div>
         <span class="flex-grow-1"
-              :class="todo.checked ? 'text-muted' : ''"
-              :style="todo.checked ? 'text-decoration: line-through': ''"
+              :class="todo.isDone ? 'text-muted' : ''"
+              :style="todo.isDone ? 'text-decoration: line-through': ''"
         >   
             {{ todo.todoItem }} 
         </span>

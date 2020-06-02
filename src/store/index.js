@@ -56,7 +56,7 @@ export default new Vuex.Store({
 
       let todoItem = {
         todoItem: value,
-        done: false
+        isDone: false
       };
 
       axios.post('/todos', todoItem).then( response => {

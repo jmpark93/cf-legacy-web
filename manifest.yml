@@ -1,9 +1,9 @@
 applications:
-- name: cf-static
+- name: cf-legacy-web
   path: ./dist
   buildpacks: 
     - staticfile_buildpack
   memory: 128M
   instances: 1
   routes:
-  - route: cfapp-static.kpaasta.io
+  - route: legtodo-web.kpaasta.io
