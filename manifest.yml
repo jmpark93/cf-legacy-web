@@ -2,8 +2,10 @@ applications:
 - name: cf-legacy-web
   path: ./dist
   buildpacks: 
-    - staticfile_buildpack
+    - nginx_buildpack
   memory: 128M
   instances: 1
+  env:
+    BACKEND_API: 'http://legtodo-api.cf.intl'
   routes:
   - route: legtodo-web.kpaasta.io

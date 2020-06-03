@@ -16,7 +16,8 @@ axios.defaults.headers.patch['Content-Type'] = 'application/json';
 // };
 
 let config = {
-  baseURL: 'http://legtodo.kpaasta.io/api',
+  // baseURL: 'http://legtodo.kpaasta.io/api',
+  baseURL: process.env.baseURL || process.env.apiUrl || '',
   timeout: 60 * 1000, // Timeout
   withCredentials: false // Check cross-site Access-Control
 };

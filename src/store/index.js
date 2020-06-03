@@ -45,7 +45,7 @@ export default new Vuex.Store({
     getAll( { commit } ) {
       // curl -X GET "http://legtodo.kpaasta.io/api/todos" -H "accept: application/json"
 
-      axios.get('/todos').then( response => {
+      axios.get('/todoapi/todos').then( response => {
         commit( 'GET_ALL', response.data._embedded.todos );
       });
 
@@ -59,7 +59,7 @@ export default new Vuex.Store({
         isDone: false
       };
 
-      axios.post('/todos', todoItem).then( response => {
+      axios.post('/todoapi/todos', todoItem).then( response => {
         commit( 'ADD_TODO', response.data);
       });
 
@@ -68,7 +68,7 @@ export default new Vuex.Store({
     removeTodo( { commit }, todoId ) {
       // curl -X DELETE "http://legtodo.kpaasta.io/api/todos/0" -H "accept: */*"
 
-      axios.delete('/todos/' + todoId).then( response => {
+      axios.delete('/todoapi/todos/' + todoId).then( response => {
         commit( 'REMOVE_TODO', todoId );
       });
 
@@ -77,7 +77,7 @@ export default new Vuex.Store({
     updateTodo( { commit }, value ) {
       // curl -X PATCH "http://legtodo.kpaasta.io/api/todos/1" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"done\": false, \"id\": 1, \"todoItem\": \"string}"
 
-      axios.patch('/todos/' + value.id, value ).then( response => {
+      axios.patch('/todoapi/todos/' + value.id, value ).then( response => {
         commit( 'UPDATE_TODO', response.data );
       });
 
@@ -86,7 +86,7 @@ export default new Vuex.Store({
     clearAll( { commit } ) {
       // curl -X DELETE "http://legtodo.kpaasta.io/api/todos/all" -H "accept: */*"
 
-      axios.delete('/todos/all').then( response => {
+      axios.delete('/todoapi/todos/all').then( response => {
         commit( 'CLEAR_ALL' );
       });
 
